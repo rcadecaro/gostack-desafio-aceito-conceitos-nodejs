@@ -26,19 +26,21 @@ app.post("/repositories", (request, response) => {
 });
 
 app.put("/repositories/:id", (request, response) => {
-  const params = { title, url, techs } = request.body;
+  const { title, url, techs } = request.body;
   const { id } = request.params;
 
   const repositoryIndex = repositories.findIndex(
     (repository) => id === repository.id
   );
-
+  
   if (repositoryIndex < 0)
     return response.status(400).json({ error: "Não foi possível localizar o repositório!" });
 
   repository = {
     ...repositories[repositoryIndex],
-    ...params,
+    title: (title) ? title : repositories[repositoryIndex].title, 
+    url: (url) ? url : repositories[repositoryIndex].url, 
+    techs: (techs) ? techs : repositories[repositoryIndex].techs,
   };
 
   repositories[repositoryIndex] = repository;
