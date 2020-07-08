@@ -62,7 +62,27 @@ app.delete("/repositories/:id", (request, response) => {
 });
 
 app.post("/repositories/:id/like", (request, response) => {
-  // TODO
+  const { id } = request.params;
+
+  const repositoryIndex = repositories.findIndex(
+    (repository) => id === repository.id
+  );
+
+  if (repositoryIndex < 0)
+    return response.status(400).json({ error: "Não foi possível localizar o repositório!" });
+
+  let { likes } = repositories[repositoryIndex];
+  
+  likes += 1;
+
+  repository = {
+    ...repositories[repositoryIndex],
+    likes,
+  };
+
+  repositories[repositoryIndex] = repository;
+
+  return response.json(repository);
 });
 
 module.exports = app;
