@@ -15,11 +15,13 @@ app.get("/repositories", (request, response) => {
 });
 
 app.post("/repositories", (request, response) => {
-  const params = { title, url, techs } = request.body;
+  const { title, url, techs } = request.body;
   const repository = {
     id: uuid(),
     likes: 0,
-    ...params
+    title, 
+    url, 
+    techs
   };
   repositories.push(repository);
   return response.json(repository);
